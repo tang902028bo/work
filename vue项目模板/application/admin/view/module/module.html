@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>基础应用管理系统</title>
+    <!-- {block name="title"}<title>上海机场集团综合管理系统</title>{/block} -->
+    <link rel="stylesheet" href="/static/css/layui/css/layui.css"/>
+    <link rel="stylesheet" href="/static/css/left.css"/>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1464762_hde8suu94bu.css"/>
+    <link rel="stylesheet" href="/static/css/loaders.min.css"/>
+    <style>
+        .classListBox{max-width:1000px;}
+    </style>
+    {block name="css"}
+    {/**资源文件引入**/}
+    {/block}
+</head>
+<body>
+
+
+<script src="/static/js/jquery-2.1.4.js"></script>
+<script src="/static/css/layui/layui.js"></script>
+<script src="/static/js/public.js"></script>
+{block name="js"}
+{/block}
+<script>
+    
+    var url = location.pathname;
+    if(url === '/') $('.frame_nav_item').first().addClass('active');
+    $('.frame_nav_item').each(function(){
+        var href = $(this).attr('href');
+        if( compareUrl(url,href) ) $(this).addClass('active');
+    });
+    $('.left>a').each(function(){
+        var href = $(this).attr('href');
+        if( compareUrl(url,href) ){
+            $(this).addClass('active');
+            $(this).parent().addClass('active');
+            $('.frame_nav_item').eq( $(this).parent().attr('parentEq') ).addClass('active');
+        }
+    });
+
+    function compareUrl(u1,u2){ 
+        return u1.substr(0,u1.lastIndexOf('/') ) === u2.substr(0,u2.lastIndexOf('/') ); 
+    }
+</script>
+
+<script>
+
+</script>
+</body>
+</html>
+
+{block name="box"}{/**一些全局弹出层**/}{/block}
+{block name="title"}<title>部门</title>{/block}
+
+{block name="content"}
+<div class="layui-fluid">
+    <style>
+        .layui-form-label{width:130px;}
+        .layui-input-block{margin-left:165px;}
+        .layui-colla-title{background: #f2f2f2}
+        .layui-layout-body{display: none;}
+    </style>
+    <div class="layui-card">
+        <div class="layui-card-header">模块设置</div>
+        <div class="layui-fluid" style=" padding: 20px 22px 60px 0; box-sizing: border-box;">
+                
+                <blockquote class="layui-elem-quote " style="margin-left: 20px;">
+                    提供各个审批分组和审批单独的地址，可单独添加到工作台方便管理、使用，详细配置方法请参照下方说明。
+                </blockquote>
+                <br/>
+                <form class="layui-form" action="" >
+                    <div id="typeBox">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">按分组设置 ：</label>
+                            <div class="layui-input-block" id="typeBox_before">
+                            </div>
+                        </div>
+                        <br/>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">按审批设置：</label>
+                            <div class="layui-input-block">
+                                <div class="layui-collapse" lay-filter="test"  id="typeBox_after">
+<!--                                       <div class="layui-colla-item">
+                                           <h2 class="layui-colla-title">分组1</h2>
+                                           <div class="layui-colla-content">
+                                              发11111111111111111111111111
+                                           </div>
+                                      </div>
+                                      <div class="layui-colla-item">
+                                           <h2 class="layui-colla-title">分组1</h2>
+                                           <div class="layui-colla-content">
+                                          22222222222222222222222222222222222222
+                                           </div>
+                                      </div> -->
+
+                               </div>
+  
+                            </div>
+                        </div>
+                    </div>
+
+                    <br/>
+                    <div class="layui-form-item layui-form-text">
+                        <label class="layui-form-label">模块地址 ：</label>
+                        <div class="layui-input-block">
+                            <textarea id="moduleURL" name="desc" placeholder="请选择上方功能模块" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                        
+                </form>
+            </div>
+            <h2 align="center">使用说明</h2>
+            <div style="font-size: 15px;padding:20px;">
+                <p>一、请在上方选择您要添加的 "功能模块" ，查看其对应的 "模块地址"</p>
+                <br/>
+                <p>二、进入企业微信管理后台添加应用后即可使用，详细步骤见下图</p>
+                
+                <br/><br/><img onclick="public_alert.see_img(this)" src="/static/images/module_explain_1.png" alt="" style="width:100%;">
+                <br/><br/><img onclick="public_alert.see_img(this)" src="/static/images/module_explain_2.png" alt="" style="width:100%;">
+                <br/><br/><img onclick="public_alert.see_img(this)" src="/static/images/module_explain_3.png" alt="" style="width:100%;">
+                
+                <br/>
+                <br/>
+                <br/>
+            </div>
+
+        
+        </div>
+    </div>
+</div>
+{/block}
+{block name="append_js"}
+<script>
+    $('#typeBox_before').click(function(){
+        var val = $(this).find('.layui-form-radioed').prev().val();
+        $("#moduleURL").val( approval_url + '/structure/login/wxwork_login_href?url=group_id=' + val);
+    });
+    $(document).on("click","#typeBox_after .layui-form-radio",function(){
+        console.log(this,233);
+        var val = $(this).prev().val();
+        $("#moduleURL").val( approval_url + '/structure/login/wxwork_login_href?url=approval_id=' + val);
+    });
+
+    //加载模块
+    var approval_url = '{$approval_url}';
+
+    layui.use(['element'], function(){
+       var element = layui.element;
+        //加载模块
+        init_module();
+        function init_module(){
+            var group_html = '',approval_html='';
+            $.post("{:url('api/admin_api/get_group_api')}",{},function(res){
+                $.each(res.data,function(){
+                    group_html += '<input type="radio" name="type" value="'+this.id+'" title="'+this.g_name+'" />';
+                });
+                $('#typeBox_before').html(group_html);
+                layui.form.render();
+            },"json")
+
+            $.post("{:url('api/admin_api/get_group_approval_api')}",{},function(res){
+                $.each(res.data,function(k,item){
+                    approval_html += '<div class="layui-colla-item"><h2 class="layui-colla-title">'+item.group.g_name+'</h2><div class="layui-colla-content">';
+                    $.each(item.group_approval,function(i,approval){
+                         approval_html += '<input type="radio" name="type" class="approval_id" value="'+approval.id+'" title="'+approval.name+'" />';
+                    })
+                    approval_html += '</div></div>';
+                });
+                $('#typeBox_after').html(approval_html);
+                layui.form.render();
+                layui.element.render('collapse')
+            },"json")
+        }
+
+        element.on('collapse(test)', function(data){
+           
+        });
+    });
+</script>
+{/block}

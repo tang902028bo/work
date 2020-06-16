@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title id="title">企业用车派车管理系统</title>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge" />
+    <meta name="viewport"
+        content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <style>
+        #form_box .options input {
+            margin-top: -3px;
+        }
+    </style>
+    <style>
+        body {
+            color: #666666;
+            font-size: 14px;
+            background: url(/static/images/login_back.png) no-repeat;
+            background-size: 100%;
+            filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/static/images/login_back.png', sizingMethod='scale');
+            line-height: normal !important;
+            font:12px/1 arial,"微软雅黑";
+            font-family:"PingFang SC","Microsoft YaHei",SCHeiti,Helvetica;
+        }
+
+        input::-webkit-input-placeholder {
+            color: #999999;
+        }
+
+        header {
+            background: #F2F2F2;
+            height: 70px;
+            line-height: 70px;
+            font-size: 16px;
+            color: #0082EF;
+            padding: 0 20px;
+        }
+
+        header .separator {
+            margin: 0 10px;
+            color: #B2B2B2;
+        }
+
+        #white_box {
+            background: white;
+            margin: auto;
+            border: 1px solid #e4e4e4;
+            border-radius: 10px;
+            position: relative;
+            top: 50%;
+            overflow: hidden;
+            width: 800px;
+            position: fixed;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            box-shadow: 0px 0px 10px rgba(0, 130, 239, 0.1);
+        }
+
+        #white_box>div {
+            float: left;
+            box-sizing: border-box;
+            padding: 54px 96px 30px;
+        }
+
+        #white_box .left-box {
+            width: 343px;
+            background: linear-gradient(360deg, rgba(0, 130, 239, 1) 0%, rgba(0, 139, 255, 1) 100%);
+            box-shadow: 0px 3px 6px rgba(0, 130, 239, 0.1);
+            color: #fff;
+            text-align: center;
+            padding: 84px 0;
+            height: 100%;
+        }
+
+        .left-box .name {
+            margin: 30px 0 70px;
+            font-size: 16px;
+        }
+
+        #white_box::after {
+            content: "";
+            clear: both;
+        }
+
+        #white_box .right-box {
+            width: 457px;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        #white_box h3 {
+            color: #000000;
+            font-size: 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        .right-box form {
+            line-height: 40px;
+            font-size: 16px;
+            margin: 45px 0;
+        }
+
+        .right-box .input {
+            border-bottom: 1px solid #aaa;
+        }
+
+        .right-box input {
+            border: none;
+            height: 40px;
+            font-size: 14px;
+        }
+
+        form .btn_primary {
+            background: #0082EF;
+            width: 100%;
+            margin-top: 50px;
+            border-radius: 4px;
+            height: 40px;
+            line-height: 40px;
+        }
+        .right-box .login-way { 
+            position: absolute;
+            cursor: pointer;
+            bottom: 0;
+            width: 265px;
+        }
+        .right-box .login-way .name {
+            text-align: center;
+            background: #fff;
+            width: 60%;
+            margin: 0 auto;
+        }
+        .right-box .login-way .line {
+            position: absolute;
+            height: 1px;
+            width: 100%;
+            background: #B2B2B2;
+            z-index: -1;
+            top: 10px;
+        }
+        #wx_reg {
+            width: 255px;
+            height: 255px;
+            overflow: hidden;
+            border:1px solid #707070;
+            margin: 10px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-top: 30px;
+            box-sizing: border-box;
+        }
+        .wx-login_box .layui-icon-close{
+            position: absolute;
+            right: 0;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        footer {
+            position: absolute;
+            bottom: 40px;
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+    <!-- 企业微信登录js -->
+    <script src="https://rescdn.qqmail.com/node/ww/wwopenmng/js/sso/wwLogin-1.0.0.js" type="text/javascript"
+        charset="utf-8"></script>
+    <!-- 钉钉登陆js -->
+    <!--<script src="//g.alicdn.com/dingding/dinglogin/0.0.5/ddLogin.js" type="text/javascript" charset="utf-8"></script>-->
+</head>
+
+<body>
+    <header>
+        <img src="/static/images/mglogo.png">
+        <span class="separator">|</span>
+        <span class="name">企业用车派车管理系统</span>
+    </header>
+    <div id="white_box">
+        <div class="left-box">
+            <div><img src="/static/images/car.png" alt=""></div>
+            <div class="name">名冠天下企业用车派车管理系统</div>
+            <div><img src="/static/images/house.png"></div>
+        </div>
+        <div class="right-box">
+            <div class="account-login_box" style="display: block;">
+                <h3>账号登录</h3>
+                <form id="login_form" onsubmit="return login_post()">
+                    <div>账号</div>
+                    <div class="input">
+                        <input type="text" required maxlength="32" name="username" autocomplete="false" placeholder="请输入用户名" />
+                    </div>
+                    <div>密码</div>
+                    <div class="input">
+                        <input type="password" required maxlength="32" name="password" autocomplete="false" placeholder="请输入您的密码" />
+                    </div>
+                    <button type="submit" class="layui-btn btn_primary">登录</button>
+                </form>
+                <div class="login-way" data-way="wx">
+                    <div class="line"></div>
+                    <div class="name"><img src="/static/images/wxlogo.png">企业微信扫码登录</div>
+                </div>
+            </div>
+            <div class="wx-login_box" style="display: none;">
+                <h3 style="color:#2D3034;font-weight:normal;font-size:20px">
+                    企业微信扫码登录
+                    <i class="layui-icon layui-icon-close"></i>
+                </h3>
+                <div id="wx_reg" style="text-align:center;"></div>
+                <div style="text-align:center;margin-bottom: 20px;">请使用企业微信扫描二维码登录<br>“企业用车派车管理系统”</div>
+                <div class="login-way" data-way="account">
+                    <div class="line"></div>
+                    <div class="name"><img src="/static/images/wxlogo.png">账号密码登录</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        联系我们 | 使用文档 | 更新日志 | 隐私政策 | 功能建议 | BUG反馈 <br>企业微信服务专家: 名冠天下 客服电话:4000282880
+    </footer>
+    <link rel="stylesheet" href="/static/css/layui/css/layui.css" />
+    <script src="/static/lib/jquery-2.1.4.js"></script>
+    <script src="/static/css/layui/layui.js"></script>
+
+    <script>
+        /*
+    $.post("/admin/Public/get_option",null,function(data){
+        $('#site_name').html(data['site_name']);
+        $("#title").html(data['site_name']);
+        $("#site_describe").html(data['site_describe']);
+        $('#bottom_txt').html(data['site_copyright']+"<br/>"+data['site_admin_email']+"&nbsp;"+data['site_analytics']);
+    });
+    */
+        var phone_code_interval = 60;
+
+        layui.config({
+            base: "js/"
+        }).use(['layer', 'element'], function () {
+            window.$ = layui.$;
+            window.layer = layui.layer;
+            $("[name=username]").focus();
+            $("#forget_get_phone_code").click(forget_get_code);
+            $("#btn_next").click(forget_next);
+
+            $(".switch_forget").click(function () {
+                if ($('input').placeholder) $('input').placeholder();
+                $("#login_form,#forget_form").toggle();
+                if (localStorage.forget_get_phone_code) timeing(); //防止刷新验证码时间
+            });
+        });
+
+        $.post('/structure/login/login_type', null, function (res) {
+            if (res.code == 1) {
+                var data = res.data;
+                /*企业微信*/
+                var goto_url = encodeURIComponent('http://103.204.75.17/wwopen/sso/qrConnect?appid=' + data[
+                        'corpid'] + '&agentid=' + data['app_id'] + '&redirect_uri=' + location.protocol +
+                    "//" + location.host + '/structure/login/wx_login&state=web_login@gyoss9');
+                console.log(goto_url);
+                var obj = window.WwLogin({
+                    "id": "wx_reg",
+                    "appid": data.corpid,
+                    "agentid": data['app_id'],
+                    "redirect_uri": location.protocol + "//" + location.host +
+                        "/structure/login/wx_login",
+                    "state": "",
+                    "href": "",
+                });
+            } else {
+                $('.layui-tab-title').find("li").eq(1).remove();
+                $(".user_login").css({
+                    display: 'block',
+                    margin: 'auto'
+                });
+                $(".user_login").trigger('click');
+            }
+        });
+        //忘记密码 - 获取验证码
+        function forget_get_code() {
+            var username = $("#forget_form input[name='forget_username']").val();
+            if (username.length < 2) {
+                layer.msg("请输入手机号或邮箱账号", {
+                    icon: 2
+                });
+                return;
+            }
+            $("#forget_form input[name='forget_username']").attr("readonly", true);
+            public_ajax("/admin/Public/forgetSendcode", {
+                username: username
+            }, function (data) {
+                if (data.code) {
+                    localStorage.forget_get_phone_code = new Date().getTime();
+                    timeing(); //倒计时
+                    layer.msg(data.msg, {
+                        icon: 1
+                    });
+                } else {
+                    $("#forget_form input[name='forget_username']").attr("readonly", false);
+                    layer.msg(data.msg, {
+                        icon: 2
+                    });
+                }
+            }, $("#forget_form"));
+        }
+        //忘记密码 - 下一步
+        function forget_next() {
+            var username = $("#forget_form input[name='forget_username']").val();
+            var captcha = $("#forget_form input[name='captcha']").val();
+            if (!username.length) {
+                layer.msg("请输入手机号或邮箱账号", {
+                    icon: 2
+                });
+                return;
+            }
+            if (username.indexOf("@") == -1 && username.length != 11) {
+                layer.msg("请输入正确手机号或邮箱账号", {
+                    icon: 2
+                });
+                return;
+            }
+            if (!captcha.length) {
+                layer.msg("请输入验证码", {
+                    icon: 2
+                });
+                return;
+            }
+            $.post("/admin/Public/checkCode", {
+                username: username,
+                code: captcha
+            }, function (data) {
+                layer.msg("验证成功，请设置新密码", {
+                    time: 1000,
+                    icon: 1
+                });
+                $("#forget_1,#forget_2").toggle();
+            });
+        }
+        //忘记密码 - 最后提交
+        function forget_submit() {
+            if ($("#forget_1").css("display") == 'inline') {
+                forget_next();
+                return false;
+            }
+            var username = $("#forget_form input[name='forget_username']").val();
+            var captcha = $("#forget_form input[name='captcha']").val();
+            var password = $("#forget_form input[name='password1']").val();
+            var password2 = $("#forget_form input[name='password2']").val();
+            if (!password || password != password2) {
+                layer.msg("两次密码输入不一致,请检查输入！", {
+                    icon: 2
+                });
+                return false;
+            }
+            $.post("/admin/Public/resetPassword", {
+                username: username,
+                code: captcha,
+                password: password
+            }, function (data) {
+                $("#login_form input[name='username']").val(username);
+                $("#login_form input[name='password']").val(password);
+                $("#login_form,#forget_form").toggle();
+                layer.msg('重置密码成功，请牢记您的新密码！', {
+                    icon: 1
+                });
+            });
+            return false;
+        }
+        //验证码倒计时
+        function timeing() {
+            var past_time = parseInt((new Date().getTime() - localStorage.forget_get_phone_code) / 1000);
+            if (past_time < phone_code_interval) {
+                $("#forget_get_phone_code").text((60 - past_time) + " 秒").prop("disabled", true);
+                setTimeout(timeing, 1000);
+            } else {
+                $("#forget_get_phone_code").text("获取验证码").prop("disabled", false);
+            }
+        }
+
+        function login_post() {
+            var data = {};
+            $("#login_form").find("input").each(function () {
+                data[this.name] = this.value;
+                if (this.type == 'checkbox') data[this.name] = this.checked;
+            });
+            var loading = layer.load(2, {
+                "shade": 0.1,
+                time: 10 * 1000
+            });
+            $.post("/structure/login/do_login", data, function (data) {
+                layer.close(loading);
+                if (data.code) {
+                    // USER.id = data.data.id;
+                    layer.msg(data.msg, {
+                        icon: 1
+                    });
+                    location.href = data.url;
+                } else {
+                    layer.msg(data.msg, {
+                        icon: 2
+                    });
+                    $("#vercode_box img").click();
+                }
+            });
+            return false;
+        }
+        $(".login-way").click(function(){
+            $(this).parent().hide();
+            var way = $(this).attr("data-way");
+            $("."+way+"-login_box").show();
+        })
+        $(".layui-icon-close").click(function(){
+            $(".wx-login_box").hide();
+            $(".account-login_box").show();
+        })
+    </script>
+
+
+    <!--[if IE]>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-placeholder/2.0.0/jquery.placeholder.min.js"></script>
+<script>
+    $('input').placeholder();
+
+    $("#vercode_box img").click();
+</script>
+
+<![endif]-->
+</body>
+
+</html>

@@ -1,0 +1,69 @@
+/*created by songxue on 2019.9.18  */
+.flex-between {display: -webkit-flex;display: flex;-webkit-justify-content: space-between;justify-content: space-between;}
+.flex-around {display: -webkit-flex;display: flex;-webkit-justify-content: space-around;justify-content: space-around;}
+.flex-col{display: -webkit-box;display: -webkit-flex;display: flex;-webkit-box-align: center;-webkit-align-items: center;align-items: center;}
+.flex-col-bd{-webkit-box-flex: 1;-webkit-flex: 1;flex: 1;}
+.flex-col-ft{text-align: right;}
+.flex-start{ -webkit-align-items: flex-start;align-items: flex-start;}
+.flex-center {display: -webkit-flex;display: flex;-webkit-align-items: center;align-items: center;-webkit-justify-content: center;justify-content: center;}
+
+.red{color:#FF0000}
+
+/*  首页  */
+.indexTop{background: #fff;padding: 40px 50px;margin-bottom: 15px;}
+.indexTop .indexTop_img{width:108px;height:108px;margin-right: 22px;overflow: hidden;}
+.indexTop img{width:100%;}
+.indexTop span{font-size: 18px;}
+.indexTop p{font-size: 18px;color:#666;margin-bottom: 16px;margin-top: 6px;}
+.indexTop .flex-col-bd>div{font-size: 16px;}
+.indexRight{text-align: center;}
+.indexName {font-size: 20px;margin-top: 20px;}
+.index_right{height:auto;overflow: hidden; border: 1px solid #f2f2f2; float: left; padding-left: 25px; margin-top: 15px; margin-left: 12px;}
+.index_right>.ke_fu { width: 240px; margin: 40px auto 30px; padding: 26px 0; float: left; margin-left: 20px; margin-right: 20px; margin-top: 28px; }
+.index_right>.ke_fu>p {font-size: 16px;color: #666;margin-bottom: 20px;}
+.index_right>.ke_fu>span {font-size: 22px; color: #999; padding-bottom: 14px; border-bottom: 1px solid #4790ee; display: block; margin-top: 22px; float: left;}
+.index_right>.er{font-size: 16px; color: #999; float: left; text-align: center;}
+.index_right>.er>img{width:200px;}
+
+/* 班级/学生列表 */
+body .select_over .layui-layer-content{overflow: visible;}
+.layui-btn-container .num{color:#ff5722;padding: 0 5px;}
+.layui-btn-container>span{font-size: 14px;margin-right: 10px;}
+.layui-form-label{width:110px;}
+.addClassForm{padding: 20px 50px 10px 10px;}
+.layui-btn-container .fr{margin-right: -120px;}
+.layui-btn-container .fr .layui-input-inline{margin-left: 10px;}
+/* 考试管理 */
+.layui-tab{margin: 0;}
+.layui-tab-title li{min-width: 100px;}
+.examSearchForm{background: #fff;padding: 12px 12px 1px 0px;width:100%;}
+.examSearchForm .layui-form-label{width:auto;}
+.examTab{position: relative}
+.examTab .layui-tab-title{margin-right: 110px;}
+.examTab .layui-tab-content{border-bottom: 1px solid #eaeaea;}
+.addExam{float: right;background: #fff;height:55px;line-height: 54px;border-bottom: 1px solid #e5e5e5;padding: 0 10px;}
+.examTable{padding: 0 10px 10px;}
+.examAddSub{position: relative;}
+.examAddSub>.layui-input-block{padding-right: 60px;}
+.examAddSub>input[type=button]{position: absolute;right:0;top:0;;}
+
+.gradeTableDes{color:#666;line-height: 30px;}
+.gradeTableDes>span{margin-right: 20px;}
+.approval>.layui-card-header>span{font-size: 12px;color:#999;margin-left: 10px;}
+
+.addApprovalForm{max-width: 700px;padding-top: 20px;}
+.addApprovalForm .layui-form-item{margin-bottom: 25px;}
+.addApprovalForm .appLiu{padding-left: 20px;padding-bottom: 20px;border:1px solid #eaeaea;}
+/*.addApprovalForm .appLiu>.layui-form-item*/
+.addApprovalForm .appItem{width:600px;}
+.addApprovalForm .layui-form-label{width:145px;}
+.addApprovalForm .layui-input-block{margin-left: 145px}
+/*.addApprovalForm .appLiu>.layui-form-item{width:450px;}*/
+.addApprovalForm .layui-input-block>.layui-btn{min-width: 90px;}
+
+.keClass{margin-left: 110px;}
+.keClass thead tr{background: #009688;color:#fff;}
+.keClass .layui-input{height:28px;}
+.keClass .layui-table-cell{overflow: visible}
+.keClass .layui-table-box{overflow: visible;}
+.keClass .layui-table-body{overflow: visible;}

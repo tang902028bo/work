@@ -1,0 +1,43 @@
+{extend name="left" /}
+{block name="title"}<title>关于我们</title>{/block}
+{block name="css"}
+<style>
+    .contactUs{padding: 90px 0 90px 70px;border:1px solid #f2f2f2; max-width: 1136px;margin: 65px;}
+    .contactUs>img{display: inline-block;vertical-align: middle;margin-right: 32px;}
+    .contactUs>div{display: inline-block;vertical-align: middle;}
+    .contactUs>div>p{font-size: 16px;}
+    .contactUs>div>div{margin-top: 22px;}
+    .contactUs>div>div p{font-size: 14px;color:#666;}
+    .contactUs>div>div img{width:176px;}
+</style>
+{/block}
+
+{block name="content"}
+<div class="layui-fluid">
+    <div class="layui-card BH">
+        <div class="layui-card-header">联系我们</div>
+        <div class="layui-card-body">
+            <div class="contactUs">
+                <img src="/static/images/kef.jpg" alt=""/>
+                <div>
+                    <p>感谢您对我们的信任和支持，如果系统有BUG、或者您有好的功能建议，欢迎反馈！</p>
+                    <p>我们会及时进行处理，对系统进行优化和升级，让用户有更好的使用体验！</p>
+                    <p>客服电话：<span class="green" style="font-weight:bold">4000-2828-80</span></p>
+                    <div>
+                        <img src="/static/images/er.jpg" alt=""/>
+                        <p> 联系客服，请微信扫码添加</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/block}
+
+{block name="js"}{/block}
+
+{block name="append_js"}
+<script>
+    $(".BH").css("min-height",window.innerHeight-82)
+</script>
+{/block}

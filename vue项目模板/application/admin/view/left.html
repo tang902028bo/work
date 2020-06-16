@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>基础应用管理系统</title>
+    <!-- {block name="title"}<title>上海机场集团综合管理系统</title>{/block} -->
+    <link rel="stylesheet" href="/static/css/layui/css/layui.css"/>
+    <link rel="stylesheet" href="/static/css/left.css"/>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1464762_hde8suu94bu.css"/>
+    <link rel="stylesheet" href="/static/css/loaders.min.css"/>
+    <style>
+        .classListBox{max-width:1000px;}
+    </style>
+    {block name="css"}
+    {/**资源文件引入**/}
+    {/block}
+</head>
+<body>
+<div class="layui-layout-body">
+    <div class="frame_head_top">
+        <div class="frame_width">
+            基础应用管理系统
+            <div class="fr">
+                <img src="{:session('user.avatar')?session('user.avatar'):'/static/images/head.jpg'}" alt="" class="layui-nav-img"/>
+                {:session('user.name')}
+                <span class="separated">|</span>
+                <a href="/admin/index/about_us.html">联系客服</a>
+                <span class="separated">|</span> 
+                <a href="/structure/login/logout">退出</a>
+            </div>
+        </div>
+    </div>
+    <div class="frame_head_bottom">
+        <div class="frame_width">
+            <a href="/admin/index/index" class="frame_nav_item">首页</a>
+            <a href="/admin/appset/index" class="frame_nav_item"  auth="clock||approval">应用管理</a>
+            <a href="/admin/department/index" class="frame_nav_item"  auth="dep_user||edit_user||sys">部门用户设置</a>
+            <a href="/admin/role/index" class="frame_nav_item" auth="role_manger||add_role||edit_role||del_role||edit_role_limit">用户权限设置</a>
+            <!-- <a href="/admin/module/module" class="frame_nav_item" auth="role_manger||add_role||edit_role||del_role||edit_role_limit">模块设置</a> -->
+        </div>
+    </div>
+    <div id="LAY_app" class="layadmin-tabspage-none">
+        <div class="layui-layout layui-layout-admin">
+            <div id="LAY_app_body" class="layui-body frame_width">
+                <div class="left" parentEq="1">
+                    <a auth="msg_class" href="/admin/message/classify">考勤打卡</a> 
+                </div>
+                <!-----主体内容------>
+                {block name="content"}{/block}
+            </div>
+
+            <!-- <div class="layui-footer"><a href="/admin/index/about_us.html">有问题或建议，欢迎点击联系客服</a></div> -->
+        </div>
+    </div>
+</div>
+
+<script src="/static/js/jquery-2.1.4.js"></script>
+<script src="/static/css/layui/layui.js"></script>
+<script src="/static/js/public.js"></script>
+{block name="js"}
+{/block}
+<script>
+    
+    var url = location.pathname;
+    if(url === '/') $('.frame_nav_item').first().addClass('active');
+    $('.frame_nav_item').each(function(){
+        var href = $(this).attr('href');
+        if( compareUrl(url,href) ) $(this).addClass('active');
+    });
+    $('.left>a').each(function(){
+        var href = $(this).attr('href');
+        if( compareUrl(url,href) ){
+            $(this).addClass('active');
+            $(this).parent().addClass('active');
+            $('.frame_nav_item').eq( $(this).parent().attr('parentEq') ).addClass('active');
+        }
+    });
+
+    function compareUrl(u1,u2){ 
+        return u1.substr(0,u1.lastIndexOf('/') ) === u2.substr(0,u2.lastIndexOf('/') ); 
+    }
+</script>
+{block name="append_js"}{/block}
+<script>
+
+</script>
+</body>
+</html>
+
+{block name="box"}{/**一些全局弹出层**/}{/block}

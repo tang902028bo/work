@@ -1,0 +1,77 @@
+{extend name="left" /}
+{block name="title"}<title>首页</title>{/block}
+{block name="css"}
+    <link rel="stylesheet" href="/static/css/school.css"/>
+    <style>
+        .block_center{display: block;margin: 0 auto;width: 100%;padding: 20% 10%}
+        .block_center li{float: left;width: 100px;height:100px;border: 1px solid;margin-left: 50px;text-align: center;line-height: 100px;border-radius:100%;}
+
+    </style>
+{/block}
+{block name="content"}
+<div class="layui-fluid">
+    
+            <div class="indexLeft">
+                <div class="indexTop flex-col">
+                    <div class="indexTop_img"><img src="{:session('user.avatar')?session('user.avatar'):'/static/images/head.jpg'}" alt="" id="headImg"/></div>
+                    <div class="flex-col-bd">
+                        <span class="green" id="name">{:session('user.name')}</span>
+                        <p>欢迎进入基础应用管理系统管理中心！</p>
+                        <div id="loginTime">上次登录时间:{:session('user.last_login_time')?date('Y-m-d H:i:s',session('user.last_login_time')):''}</div>
+                    </div>
+                </div>
+                <div class="bg_white BH" style="padding:15px;">
+                        <fieldset class="layui-elem-field layui-field-title">
+                            <legend>常用入口</legend>
+                            <div class="layui-field-box" style="padding: 20px 12px;">
+                                <a auth="clock"  class="layui-btn layui-btn-primary" href="/admin/appset/clock">打卡应用管理</a>          
+                                <a auth="approval"  class="layui-btn layui-btn-primary" href="/admin/appset/approval">审批应用管理</a>          
+                            </div>
+                        </fieldset>
+
+                        <fieldset class="layui-elem-field layui-field-title">
+                            <legend>联系我们</legend>
+                            <div class="layui-field-box">
+                                    <div class="index_right">
+                                            <div class="er">
+                                                <img class="public_num_qr" src="http://crmbjmg.hostkd8cd8kf9k.mgtx.cn/upload/setting/20190606/80a64851e27de1ac2e647ea7c914cd16.png" alt="" style="width: 200px; margin-top: 20px;">
+                                            </div>
+                                            <div class="ke_fu">
+                                                <p>客服电话</p>
+                                                <div>致电专家客服，为您免费解答疑问</div>
+                                                <span class="service_phone">4000-2828-80</span>
+                                            </div>
+                                    </div>
+                            </div>
+                        </fieldset>
+                        
+                </div>
+                
+        </div>
+</div>
+{/block}
+
+{block name="js"}
+{/block}
+
+{block name="append_js"}
+<script>
+
+/*    $.post('/api/user_info/getUserInfo',function (res){
+        if (res.code ==1){
+            $('#headImg').attr('src',res.data.avatar)
+            $('#name').html(res.data.name)
+            $('#loginTime').html(res.data.last_login_time)
+        }
+    })*/
+   /* $.post('/api/Statistics/index',function (res){
+        $('#statis li').eq(0).text('教员：'+res.data.teacher);
+        $('#statis li').eq(1).text('学生：'+res.data.student);
+        $('#statis li').eq(2).text('考试：'+res.data.exam);
+    });*/
+
+    $(".BH").css("min-height",$(window).height()-$(".indexTop").height()-125);
+    $(".indexRight").css("height",$(".indexLeft").height())
+
+</script>
+{/block}

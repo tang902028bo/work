@@ -1,0 +1,582 @@
+{extend name="left" /}
+{block name="title"}<title>部门</title>{/block}
+{block name="css"}
+<link rel="stylesheet" href="/static/css/school.css"/>
+<style>
+    .departmentTop{text-align: right;padding-top: 15px;padding-bottom: 10px;}
+    .structureCard{font-size: 16px;line-height: 43px;}
+    .structureCard>i{cursor: pointer;margin-left: 5px;}
+    .structure{padding-left: 9px;}
+    .structureBox{color:#666;}
+    .structureBox li{position: relative;padding-bottom: 0;line-height: 30px;}
+    .structureBox li>i{font-size: 14px;color:#666;top: 5px;}
+    .structureBox li>i.icon-wenjian{font-size: 15px;}
+    .structureBox li>span{position: absolute;right:0;}
+    .structureBox li>.layui-timeline-content>div{margin-bottom: 5px;padding-left: 5px;cursor: pointer;}
+    .structureBox li>.layui-timeline-content>div:hover,.structureBox .active{background-color: #e5f4f3;}
+    .structureBox .layui-timeline-content{padding-left: 16px;}
+    .structureBox .layui-timeline-axis:hover{color:#666;}
+    #group_box{max-height:400px;overflow: auto;margin-bottom: 15px;}
+    .structureBox #group_box li>.layui-timeline-content>div:hover>.structure_operation{display: block}
+    .structureBox .structure_operation{font-size: 14px; display: none; background: #e5f4f3; padding-left: 8px; position: absolute; height: 30px; top: 0; right: 0;}
+    .structureBox .structure_operation>i{display: inline-block;margin-right: 14px;color:#23a498;cursor: pointer;}
+    .structureBox .structure_operation>i.icon-shanchu{color:#fcba31;font-size: 19px;}
+    .structureTipC{color:#666;font-size: 14px;}
+    .departmentUTop .left>div{margin-right: 10px;}
+    .departmentUTop .left{float: left;}
+    .departmentUTop .right{float: right;}
+    .departmentUTop .layui-form-select{width:106px;}
+    .departmentUTop .layui-table-page{text-align: right;}
+    .departmentUTop input{height:30px;}
+    .layui-table img{width:30px;height:30px;}
+    .color_666{color:#666;}
+    .layui-input-block{padding-right: 50px;}
+    
+    .tongBu2_bottom{margin-top: 20px}
+</style>
+{/block}
+
+{block name="content"}
+<div class="layui-fluid">
+    <div class="layui-card BH" >
+        <div class="layui-card-header">部门和用户设置</div>
+        <div class="layui-card-body">
+            <div class="layui-row layui-col-space15">
+                <!--组织架构-->
+                <div class="layui-col-md3 structure">
+                    <div class="structureCard">公司组织架构 </div>
+                    <!-- <button onclick="add_guanli()">测试人员选择</button> -->
+                    <div class="structureBox" id="structureBox">
+                        <div id="group_box">
+                            <div>
+                                <div>
+                                   <!-- <ol class="layui-timeline">
+                                        <li class="layui-timeline-item"><i class="toggle_child iconfont icon-zhankai1 layui-timeline-axis" data-tips="收起"></i>
+                                            <div class="layui-timeline-content">
+                                                <div class="department_item">考试测试</div>
+                                                <ol class="layui-timeline">
+                                                    <li class="layui-timeline-item"><i class="iconfont layui-timeline-axis icon-wenjian"></i>
+                                                        <div class="layui-timeline-content">
+                                                            <div class="department_item">公共</div>
+                                                        </div>
+                                                    </li>
+                                                    <li class="layui-timeline-item"><i class="iconfont layui-timeline-axis icon-wenjian"></i>
+                                                        <div class="layui-timeline-content">
+                                                            <div class="department_item">公共1</div>
+                                                        </div>
+                                                    </li>
+                                                </ol>
+                                            </div>
+                                        </li>
+                                    </ol>-->
+                                </div>
+                            </div>
+                        </div>
+                       <!-- <ol class="layui-timeline">
+                            <li class="layui-timeline-item"><i class="toggle_child iconfont icon-zhankai1 layui-timeline-axis" data-tips="收起"></i>
+                                <div class="layui-timeline-content">
+                                    <div data-id="1" data-parent_id="0" class="department_item">其它用户</div>
+                                    <ol class="layui-timeline">
+                                        <li class="layui-timeline-item"><i class="iconfont layui-timeline-axis icon-wenjian"></i>
+                                            <div class="layui-timeline-content">
+                                                <div data-id="2" data-parent_id="1" class="department_item">已禁用用户</div>
+                                            </div>
+                                        </li>
+                                        <li class="layui-timeline-item"><i class="iconfont layui-timeline-axis icon-wenjian"></i>
+                                            <div class="layui-timeline-content">
+                                                <div data-id="3" data-parent_id="1" class="department_item">已删除用户</div>
+                                            </div>
+                                        </li>
+                                        <li class="layui-timeline-item"><i class="iconfont layui-timeline-axis icon-wenjian"></i>
+                                            <div class="layui-timeline-content">
+                                                <div data-id="4" data-parent_id="1" class="department_item">不可见用户</div>
+                                            </div>
+                                        </li>
+                                    </ol>
+                                </div>
+                            </li>
+                        </ol>-->
+                    </div>
+                </div>
+                <!--用户列表-->
+                <div class="layui-col-md9">
+                    <div class="layui-card">
+                        <div class="layui-card-header">用户列表
+                            <div style="float: right;margin: 10px;"><input id="tongBtn" auth="sys" class="layui-btn layui-btn-sm" type="button" value="同步组织架构"></div>
+                            <div style="float: right;margin: 10px"><input id="tongBtn_tags" auth="sys_tags" class="layui-btn layui-btn-sm" type="button" value="同步标签"></div>
+
+                        </div>
+                        <div class="layui-card-body">
+                            <div class="departmentUTop">
+                                <form class="layui-form load_background_none" style="min-height: 500px;">
+                                    <div class="departmentUTop_tableTop">
+                                        <div class="left">
+                                            <div class="layui-inline">已选 <span id="select_count" class="green">0</span> 位用户</div>
+                                            <input auth="edit_user" type="button" id="btn_batch_edit" value="批量编辑" disabled="" class="layui-btn layui-btn-xs layui-btn-disabled">
+                                        </div>
+                                        <div class="right">
+                                            <div class="layui-inline">
+                                                <select name="u_roles" id="select_u_roles" lay-filter="select_u_roles">
+                                                    <option value="">请选择角色</option>
+                                                </select>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <select name="field" id="select_field" lay-search="">
+                                                    <option value="name">姓名</option>
+                                                    <option value="mobile">手机号</option>
+                                                </select>
+                                            </div>
+                                            <div class="layui-inline">
+                                                <input type="text" name="keyword" autocomplete="off" class="layui-input">
+                                            </div>
+                                            <div class="layui-inline">
+                                                <input type="submit" lay-submit="" lay-filter="search" class="layui-btn layui-btn-sm" value="查询">
+                                            </div>
+                                        </div>
+                                        <div class="layui-clear"></div>
+                                    </div>
+                                    <table id="userTable" lay-filter="userTable"></table>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script type="text/html" id="barDemo">
+    {{#  if(d.id > 1){ }}
+    <a auth="edit_user" class="layui-btn layui-btn-xs editUserButton" lay-event="edit">编辑</a>
+    {{# } }}
+</script>
+
+
+
+{/block}
+
+
+{block name="js"}
+<script src="/static/css/layui/layui.js"></script>
+<script src="/static/js/public.alert.js"></script>
+{/block}
+
+
+{block name="append_js"}
+<script>
+    $(".BH").css("min-height",$(window).height()-80);
+</script>
+<!--引入微信js-sdk-->
+<script src="/static/js/jweixin-1.2.0.js"></script>
+<!-- <script>
+    wx.config({
+        beta: true,// 必须这么写，否则wx.invoke调用形式的jsapi会有问题
+        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: '{$wx_config.app_id}', // 必填，企业微信的corpID
+        timestamp: '{$content.timestamp}', // 必填，生成签名的时间戳
+        nonceStr: '{$content.noncestr}', // 必填，生成签名的随机串
+        signature: '{$content.signature}',// 必填，签名，见 附录-JS-SDK使用权限签名算法
+        jsApiList: ['selectEnterpriseContact'] // 必填，需要使用的JS接口列表，凡是要调用的接口都需要传进来
+    });
+    wx.ready(function(){
+        // wx.checkJsApi({
+        //     jsApiList: ['selectEnterpriseContact'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+        //     success: function(res) {
+        //         // 以键值对的形式返回，可用的api值true，不可用为false
+        //         // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+        //     }
+        // });
+        // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+        window.add_guanli=function(){
+            alert(1)
+            wx.invoke("selectEnterpriseContact", {
+                        "fromDepartmentId": -1,// 必填，表示打开的通讯录从指定的部门开始展示，-1表示自己所在部门开始, 0表示从最上层开始
+                        "mode": "multi",// 必填，选择模式，single表示单选，multi表示多选
+                        "type": ["user"],// 必填，选择限制类型，指定department、user中的一个或者多个
+                        "selectedDepartmentIds": '',// 非必填，已选部门ID列表。用于多次选人时可重入，single模式下请勿填入多个id
+                        "selectedUserIds": ''// 非必填，已选用户ID列表。用于多次选人时可重入，single模式下请勿填入多个id
+                    },function(res){
+                        if (res.err_msg == "selectEnterpriseContact:ok")
+                        {
+                            if(typeof res.result == 'string')
+                            {
+                                res.result = JSON.parse(res.result) //由于目前各个终端尚未完全兼容，需要开发者额外判断result类型以保证在各个终端的兼容性
+                            }
+                            var selectedDepartmentList = res.result.departmentList;// 已选的部门列表
+                            for (var i = 0; i < selectedDepartmentList.length; i++)
+                            {
+                                var department = selectedDepartmentList[i];
+                                var departmentId = department.id;// 已选的单个部门ID
+                                var departemntName = department.name;// 已选的单个部门名称
+                            }
+                            var selectedUserList = res.result.userList; // 已选的成员列表
+                            var user_list = new Array;
+                            var user_s = '';
+                            for (var i = 0; i < selectedUserList.length; i++)
+                            {
+                                var user = selectedUserList[i];
+                                var userId = user.id; // 已选的单个成员ID
+                                var userName = user.name;// 已选的单个成员名称
+                                var userAvatar= user.avatar;// 已选的单个成员头像
+                                user_list.push(user);
+                                user_s = user_s ? user_s+','+userId : userId;
+                            }
+                            $.ajax({
+                                type:'post',
+                                url:'/home/user/add_people_depart',
+                                data:{department_id:depart_id,userid:user_s},
+                                success:function(data){
+                                    data = JSON.parse(data);
+                                    var msg = data.msg;
+                                    if(data.code == 1){
+                                        var temp_msg = '';
+                                        if(data.other_num > 0){
+                                            $.each(data.other_user,function(k,v){
+                                                $.each(user_list,function(k1,v1){
+                                                    if(v1.id == v){
+                                                        temp_msg = temp_msg ? temp_msg+','+v1.name : v1.name;
+                                                    }
+                                                })
+                                            });
+                                            msg = msg+',其中:'+temp_msg+'暂时未同步至排班系统';
+                                        }
+                                        $.toast(msg,'text');
+                                        setTimeout(function(){
+                                            init(depart_id);
+                                        },1000)
+                                    }else{
+                                        $.toast(msg,'text');
+                                    }
+                                }
+                            })
+                        }
+                    }
+            );
+        }
+    });
+    wx.error(function(res){
+        $.toast('企业微信验证失败','text');
+        // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+    });
+</script> -->
+<script>
+    //组织架构折叠、展开
+    $('#structureBox').on('click','.toggle_child',function(){
+        $(this).toggleClass('icon-zhankai').toggleClass('icon-zhankai1');
+        if($(this).data('tips')=='展开') $(this).data('tips','收起');else  $(this).data('tips','展开')
+        $(this).next().children('.layui-timeline').slideToggle(100);
+    });
+    public_ajax("/structure/Query/depList",null,init_dep,$("#structureBox"));
+    //初始化部门
+    function init_dep(res){
+        var origin_department = res.data;
+        // var other = [{id:1,parent_id:0,dep_name:"其它用户"},{id:2,parent_id:1,dep_name:"已禁用用户"},{id:3,parent_id:1,dep_name:"已删除用户"}];
+        //1.组织架构
+        console.log(origin_department.converTree(0,'id','parentid'));
+        $('#group_box').html(department_data_conver_dom(origin_department.converTree(0,'id','parentid')));
+        //2.其它用户
+        // $('#group_box').after(department_data_conver_dom(other.converTree()));
+        //3.角色
+        public_ajax("/api/role_manger/role_list",{},function (res) {
+            $.each(res.data,function () {
+                $("#editUser").find('select[name=u_roles]').append(' <option value="'+this.id+'">'+this.role_name+'</option>');
+                $("#select_u_roles").append(' <option value="'+this.id+'">'+this.role_name+'</option>');
+            });
+            layui.form.render('select');
+        });
+
+    }
+
+    //将 组织架构数组 转换为 dom
+    function department_data_conver_dom(department_data){
+        if(department_data && department_data.length){
+            var son_list_dom = $('<ol class="layui-timeline"></ol>');
+            //1.遍历一级子
+            $(department_data).each(function(){
+                var edit_icon='';
+                //2.每个一级子类dom
+                var son_alone_dom = $('<li class="layui-timeline-item"><i class="toggle_child iconfont icon-zhankai1 layui-timeline-axis"></i><div class="layui-timeline-content"></div></li>');
+                son_alone_dom.find('.layui-timeline-content').append('<div data-id="'+this['id']+'" data-parent_id="'+this['parentid']+'" class="department_item">'+this['dep_name']+'<div class="structure_operation"> '+edit_icon+' </div></div>');
+                //3.每个一级子类的所有后代dom
+                var son_all_child = department_data_conver_dom(this['children']);
+                if(son_all_child) son_alone_dom.find('.layui-timeline-content').append(son_all_child).prev().attr('data-tips','收起');
+                else son_alone_dom.find('.toggle_child').removeClass('toggle_child').removeClass('icon-zhankai1').addClass('icon-wenjian');
+                son_list_dom.append(son_alone_dom);
+            });
+            return son_list_dom;
+        }
+    }
+    
+
+    layui.use(['form','table','layer'],function(){
+        var form=layui.form,table=layui.table,layer=layui.layer;
+        table.set({response: {statusCode: 1,}});
+        var user_table = table.render({
+            elem: '#userTable'
+            ,url: '/structure/Query/userList'
+            ,page: true
+            ,cols: [[
+                {type:'checkbox',align:"center"}
+                ,{field: 'name', title: '姓名',align:"center"}
+                ,{field: 'gender', title: '性别',align:"center",templet:public_templet.sex}
+                ,{field: 'avatar', title: '头像',align:"center",templet:public_templet.avatar}
+                ,{field: 'mobile', title: '手机号',align:"center"}
+                ,{field: 'email', title: '邮箱',align:"center"}
+                ,{field: 'department_name', title: '部门',align:"center"}
+                ,{field: 'u_role_name', title: '角色',align:"center"}
+                ,{title:'操作', toolbar: '#barDemo',align:"center",hide:0}//!USER.auth_check('edit_user')
+            ]],
+            done:function (res) {
+                //管理员不可选
+                $.each(res.data,function (i) {
+                   if(this.id==1){
+                       // $('tr[data-index=' + i + '] input[type="checkbox"]').prop('disabled', true);
+                       $('tr[data-index=' + i + ']>td:first-child').empty();
+                       layui.form.render('checkbox');// 重新渲染一下
+                   }
+                });
+            }
+        });
+        //搜索栏
+        layui.form.on('submit(search)', function(data){
+            user_table.reload(function(res){
+                $.extend(res.where,data.field); //搜索字段
+                $.extend(res.page,{ curr: 1 }); //回到第一页
+                return res;
+            });
+            return false;
+        });
+
+        //操作栏
+        table.on('tool(userTable)', function(obj){
+            var data = obj.data;
+            //console.log(obj)
+            if(obj.event === 'edit'){
+                layer.open({
+                    type:1,
+                    title:"编辑用户",
+                    area:"682px",
+                    skin:"select_over",
+                    btn:["确定","取消"],
+                    shadeClose:true,
+                    content: $("#editUser"),
+                    success:function(layero){
+                        layero.find('input[name=user_name]').val(data.name);
+                        layero.find('select[name=u_roles]').val(data.u_roles);
+                        form.render()
+                    },
+                    yes: function(index, layero){
+                        var role_id = layero.find('select[name=u_roles]').val();
+                        public_ajax("/api/role_manger/set_role",{id:data.id,role_id:role_id},function (res) {
+                            layer.close(index);
+                            layer.msg(res.msg);
+                            if(res.code == 1){
+                                obj.update({u_roles:role_id,u_role_name:res.data});
+                            }
+                        },layero);
+                    },
+                    end:function () {
+                        $("#editUser").find('select[name=u_roles]').val('');
+                    }
+                });
+            }
+        });
+        //表格多选框点击事件
+        table.on('checkbox(userTable)',table_checkbox_change);
+        //多选框点击
+        function table_checkbox_change(){
+            var select_data = layui.table.checkStatus('userTable');
+            var select_data_count = select_data.data.length;
+            if(select_data_count) $('#btn_batch_edit').removeClass('layui-btn-disabled').prop('disabled',false);
+            else $('#btn_batch_edit').addClass('layui-btn-disabled').prop('disabled',true);
+            $('#select_count').text(select_data_count);
+        }
+        //批量编辑用户
+        $("#btn_batch_edit").on("click",function(){
+            var form_info = [
+                {label:'角色',name:'u_roles',verify:'required',type:'select',data:public_data.role}
+            ];
+            var layero=public_form('批量编辑用户',form_info,function(res){
+                var userids=layui.table.checkStatus('userTable').data.map(function(d){return d.id});
+                var send_data = {id:userids.join(','),role_id:res.data.u_roles};
+                public_ajax('/api/role_manger/set_role',send_data,['批量编辑用户',function () {
+                    $('#select_count').text(0);
+                    $('#btn_batch_edit').addClass('layui-btn-disabled').prop('disabled',true);
+                    user_table.reload();
+                }],layero);
+            });
+        });
+        //1-2.组织架构-点击切换用户列表(依赖 userTable)
+        $("#structureBox").on('click','.department_item',switch_department);
+
+        function switch_department(e) {
+            if(e && e.target && e.target.tagName==="I") return;                    //点击编辑和删除不切换角色
+            $('#structureBox .active').removeClass('active');
+            var this_id = $(this).addClass('active').data('id');
+            $('[name=keyword]').val('');
+            //1.切换组织架构
+            if($(this).parents('#group_box').length){
+                //重载表格前先将选中 取消
+                $('[lay-id="user_table"]').find('.layui-form-checkbox.layui-form-checked').click();
+                table_checkbox_change();
+                user_table.reload({where:{dep_id:this_id,type:2,state:1},page:{curr: 1}});
+            }else{
+                //禁，删除用户
+                //重载表格前先将选中 取消
+                $('[lay-id="user_table"]').find('.layui-form-checkbox.layui-form-checked').click();
+                table_checkbox_change();
+
+                user_table.reload({where:{dep_id:0,type:2,state:this_id,is_status:1},page:{curr: 1}});
+            }
+        }
+    });
+</script>
+<script>
+    /*----同步组织架构-----*/
+    //同步组织架构
+    $("#tongBtn").on("click",function(){
+        layer_confirm('即将同步组织架构',yes_callback,{title:'同步组织架构',more:'请确认企业微信后台应用可见范围内，包含您本人，否则同步后您将被禁止登陆，确定同步吗？'});
+        function yes_callback(){
+            var layermsg=layer.msg("组织架构同步中，请耐心等待……",{zIndex:9999999999,time:0});
+            var index = layer_open("组织架构同步",$("#tongBu2"),null,{area:'680px',btn:"后台同步",yes:function(index, layero){layer.close(index);layer.close(layermsg)}});
+            //进度条自行上涨，到80%时等待
+            percent = 0;
+            function progress_up(){
+                percent = percent+2;
+                var percent_bai = percent+"%";
+                $(".layui-progress-bar").attr("lay-percent",percent_bai);
+                $(".layui-progress-bar").css("width",percent_bai);
+                $(".layui-progress-text").text(percent_bai);
+
+                if(percent >= 80)clearInterval(interval);
+            }
+            var interval = setInterval(progress_up,300);
+            public_ajax('/structure/api/sync',null,function(res){
+                //后台返回同步完成时，将精度条加到100%
+                clearInterval(interval);
+                function progress_over(){
+                    percent = percent+5;
+                    if(percent >= 100){
+                        percent = 100;
+                    }
+                    var percent_bai = percent+"%";
+                    $(".layui-progress-bar").attr("lay-percent",percent_bai);
+                    $(".layui-progress-bar").css("width",percent_bai);
+                    $(".layui-progress-text").text(percent_bai);
+
+                    function close_msg(){
+                        layer.close(index);layer.close(layermsg);layer.msg(res.msg);
+                        window.location.reload();
+                    }
+                    if(percent >= 100) {
+                        clearInterval(interval_over);
+                        setTimeout(close_msg,1500);
+                    }
+                }
+                var interval_over = setInterval(progress_over,500);
+            },null,
+                {fail:function (res) {layer.closeAll();layer.msg(res.msg);}}
+            );
+        }
+    });
+    //同步组织架构
+    $("#tongBtn_tags").on("click",function(){
+        layer_confirm('即将同步标签',yes_callback,{title:'同步标签',more:'确定同步标签吗？'});
+        function yes_callback(){
+            var layermsg=layer.msg("标签同步中，请耐心等待……",{zIndex:9999999999,time:0});
+            var index = layer_open("标签同步",$("#tongBu2"),null,{area:'680px',btn:"后台同步",yes:function(index, layero){layer.close(index);layer.close(layermsg)}});
+            //进度条自行上涨，到80%时等待
+            percent = 0;
+            function progress_up(){
+                percent = percent+2;
+                var percent_bai = percent+"%";
+                $(".layui-progress-bar").attr("lay-percent",percent_bai);
+                $(".layui-progress-bar").css("width",percent_bai);
+                $(".layui-progress-text").text(percent_bai);
+
+                if(percent >= 80)clearInterval(interval);
+            }
+            var interval = setInterval(progress_up,300);
+            public_ajax('/structure/api/synchronization_wxwork_tags',null,function(res){
+                //后台返回同步完成时，将精度条加到100%
+                clearInterval(interval);
+                function progress_over(){
+                    percent = percent+5;
+                    if(percent >= 100){
+                        percent = 100;
+                    }
+                    var percent_bai = percent+"%";
+                    $(".layui-progress-bar").attr("lay-percent",percent_bai);
+                    $(".layui-progress-bar").css("width",percent_bai);
+                    $(".layui-progress-text").text(percent_bai);
+
+                    function close_msg(){
+                        layer.close(index);layer.close(layermsg);layer.msg(res.msg);
+                        window.location.reload();
+                    }
+                    if(percent >= 100) {
+                        clearInterval(interval_over);
+                        setTimeout(close_msg,1500);
+                    }
+                }
+                var interval_over = setInterval(progress_over,500);
+            },null,
+                {fail:function (res) {layer.closeAll();layer.msg(res.msg);}}
+            );
+        }
+    });
+</script>
+{/block}
+
+
+{block name="box"}
+<form class="layui-form addClassForm hide" id="editUser">
+    <div class="layui-form-item">
+        <label class="layui-form-label">姓名</label>
+        <div class="layui-input-block">
+            <input type="text" name="user_name"  readonly class="layui-input"></div>
+    </div>
+    <!--<div class="layui-form-item">-->
+    <!--<label class="layui-form-label">性别</label>-->
+    <!--<div class="layui-input-block">-->
+    <!--<input class="layui-disabled" readonly  type="radio"  title="男" name="sex" lay-skin="primary" checked="" value="1">-->
+    <!--<input class="layui-disabled" readonly  type="radio"  title="女" name="sex" lay-skin="primary" value="2">-->
+    <!--</div>-->
+    <!--</div>-->
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色</label>
+        <div class="layui-input-block">
+            <select class="openin_layer" name="u_roles">
+                <option></option>
+               <!-- <option value="1">超级管理员</option>
+                <option value="2">普通管理员</option>
+                <option value="3" selected="selected">普通用户</option>
+                <option value="9">班主任</option>-->
+            </select>
+        </div>
+    </div>
+    <input type="submit" class="hide"  lay-submit="" />
+</form>
+
+
+<!-------同步弹框------->
+<div class="tongBu bg_white" id="tongBu2" style="padding: 0 20px;">
+    <div class="bg_light">
+        <i class="iconfont icon-tishi"></i><span>提示</span>
+        <p>1、建议<span class="tongbu_type">企业微信</span>管理员先将需要使用部门或员工加入企业微信的应用可见范围中</p>
+        <p>2、更新组织架构后，会根据<span class="tongbu_type">企业微信</span>中设置的可见范围来显示组织架构；为显示层级结构，同时会显示可见部门的上级部门</p>
+    </div>
+    <div class="tongBu2_bottom">
+        <div>
+            <div class="layui-progress" lay-filter="schedule" lay-showPercent="true">
+                <div class="layui-progress-bar layui-bg-green" lay-percent="0%"></div>
+            </div>
+        </div>
+        <p style="margin-top: 10px;">您可点击“后台同步”按钮，关闭该窗口并在后台继续更新</p>
+    </div>
+</div>
+{/block}

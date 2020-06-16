@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8"/>
+    <title id="title">基础应用综合管理系统</title>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1,IE=edge"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <style>
+
+        #form_box .options input{margin-top: -3px;}
+    </style>
+    <style>
+        body{color:#666666;font-size: 14px;background: url(/static/images/login_back.png)  no-repeat; background-size: 100%;
+            filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/static/images/login_back.png', sizingMethod='scale')
+        }
+        input::-webkit-input-placeholder {color: #999999;}
+        #white_box{width: 318px; background: white; margin: auto; border: 1px solid #e4e4e4; padding: 70px 270px; border-radius: 4px; position: relative; top: 50%; box-shadow: 1px 1px 3px #b7b7b7;}
+
+        #white_box{text-align: center}
+        #white_box h2{color:#333333;font-size: 30px;}
+        #white_box h3{color:#999999;font-size: 16px;line-height: 40px;}
+        #form_box{margin: auto;margin-top:20px;margin-bottom: 40px;}
+
+        #form_box .item{float: left;width: 100%;padding-bottom: 18px;position: relative;}
+        #form_box i{float: left; color: #999999; position: absolute;left: 10px; top: 9px;}
+        #form_box input{border:1px solid #E1E1E1;width:100%;float: left;text-indent: 22px;}
+        #form_box input:focus{border-color:#3EB7F3 !important;}
+        #form_box a{color:#32A8E1}
+        #form_box .options{width:100%;text-align: left;}
+        #form_box .options input{margin-left: 2px;}
+        #save_password{width: auto !important; display: initial;position: relative; top: 4px; margin-right: 4px; margin-left: 1px;}
+        .lineH50{line-height: 50px;}
+        #vercode_box img{position: absolute; right: 0; top: 0; border: 1px solid #c5c5c5;}
+        .btn_primary{line-height: 47px;width:100%;background:#32A8E1;height:auto;border:1px solid #3EB7F3;}
+        .f_right{float:right;}
+
+        #steps div{width: 50%; text-align: center; float: left; margin-bottom: 29px;}
+        #steps div::before{content: "1"; width: 24px; line-height: 24px; display: block; background: #C8C8C8; color: white; position: relative; border-radius: 16px; z-index: 2; margin: auto; margin-bottom: 10px;}
+        #steps div:nth-child(2)::before{content: "2";}
+        #steps div::after{display: block; content: ""; width: 100%; height: 3px;background: #C8C8C8; position: relative; top: -40px;}
+        #steps .selected::after, #steps .selected::before{background: #32a8e1;}
+        #steps .selected{color:#32a8e1;}
+        #steps .pass::after, #steps .pass::before{background: #AEDEFF;}
+        #steps .pass{color:#AEDEFF;}
+        #forget_get_phone_code{position: absolute; width: 80px; line-height: 28px; cursor: pointer; right: 4px; top: 4px; color: #32a8e1; font-size: 13px; background: white; border: 1px solid #32a8e1;}
+
+        #bottom_txt{color: #777777; text-align: center; font-size: 14px; line-height: 27px; padding-bottom: 10px; position: absolute; top: 50%; left: 50%; margin-left: -115px; margin-top: 435px;}
+        @media screen and (max-width: 900px){
+            #white_box{width: 100%; padding: 0; height: 100%;padding-top:100px;border:0;box-shadow: none;}
+        }
+        @media screen and (min-width: 900px){#white_box{position: absolute;left: 50%;top: 50%;transform: translateY(-50%) translateX(-50%);}}
+        .layui-tab-title>li{width: 40%}
+    </style>
+    <!-- 企业微信登录js -->
+    <script src="https://rescdn.qqmail.com/node/ww/wwopenmng/js/sso/wwLogin-1.0.0.js" type="text/javascript" charset="utf-8"></script>
+    <!-- 钉钉登陆js -->
+    <!--<script src="//g.alicdn.com/dingding/dinglogin/0.0.5/ddLogin.js" type="text/javascript" charset="utf-8"></script>-->
+</head>
+<body>
+<div id="white_box">
+    <h2 id="site_name">企业用车管理系统</h2>
+    <h3 id="site_describe"></h3>
+    <!-- 选项卡切换 -->
+    <div class="layui-tab layui-tab-brief">
+        <ul class="layui-tab-title">
+            <li class="user_login">账号密码登录</li>
+            <li class="layui-this">扫码登录</li>
+        </ul>
+        <div class="layui-tab-content ">
+            <div class="layui-tab-item">
+                <div id="form_box">
+                    <form id="login_form" onsubmit="return login_post()">
+                        <div class="item"> <i class="layui-icon layui-icon-username"></i><input type="text" required maxlength="32" name="username" placeholder="请输入用户名" class="layui-input" /></div>
+                        <div class="item"> <i class="layui-icon layui-icon-password"></i><input type="password" required maxlength="32" name="password" placeholder="请输入密码" class="layui-input" /></div>
+                        <div class="item" id="vercode_box"><i class="layui-icon layui-icon-vercode"></i>
+
+                            <input type="text" required maxlength="5" name="captcha" placeholder="请输入验证码" class="layui-input" />
+                            <img style="cursor: pointer;position:absolute;right:1px;top:1px;" height="33" width="150" font-size="18" onclick="this.src='/captcha.html?'+Math.random()" src="/captcha.html" alt="captcha">
+                            <!--<img src="/new_captcha.html?height=32&amp;width=150&amp;font_size=18" onclick="this.src='/new_captcha.html?height=32&amp;width=150&amp;font_size=18&amp;time='+Math.random();" title="换一张" class="captcha captcha-img verify_img" style="cursor: pointer;position:absolute;right:1px;top:1px;">-->
+                        </div>
+
+                        <div class="item options">
+                            <!-- <input type="checkbox" id="save_password"><label for="save_password">记住密码</label> -->
+                            <!--<a class="switch_forget f_right" href="javascript:">忘记密码?</a>-->
+                        </div>
+                        <button type="submit" id="btn_reg" class="layui-btn btn_primary">登录</button>
+                        <!-- <a class="lineH50" target="_blank" href="javascript:layer.msg('暂未开放')">注册账户</a> -->
+                        <div style="clear:left;"></div>
+                    </form>
+
+                    <form id="forget_form" style="display:none;" onsubmit="return forget_submit()">
+                                <span id="forget_1">
+                                    <div id="steps"><div class="selected">验证身份</div><div>设置密码</div></div>
+                                    <div class="item"><i class="layui-icon layui-icon-cellphone"></i><input type="tel" maxlength="32" name="forget_username" placeholder="请输入手机或邮箱账号" class="layui-input" /><button type="button" id="forget_get_phone_code">获取验证码</button></div>
+                                    <div class="item"><i class="layui-icon layui-icon-vercode"></i><input type="text" maxlength="6" name="captcha" placeholder="请输入手机验证码" class="layui-input" /></div>
+                                    <div class="item"></div>
+                                    <button id="btn_next" type="button" class="layui-btn btn_primary">下一步</button>
+                                </span>
+                        <span id="forget_2" style="display:none">
+                                    <div id="steps"><div class="pass">验证身份</div><div class="selected">设置密码</div></div>
+                                    <div class="item"> <i class="layui-icon layui-icon-password"></i><input type="password" maxlength="32" name="password1" placeholder="请输入新密码" class="layui-input" /></div>
+                                    <div class="item"> <i class="layui-icon layui-icon-password"></i><input type="password" maxlength="32" name="password2" placeholder="请再次输入新密码" class="layui-input" /></div>
+                                    <div class="item"></div>
+                                    <button type="submit" class="layui-btn btn_primary">确认提交</button>
+                                </span>
+                        <a class="switch_forget lineH50" target="_blank" href="javascript:">已有账号，点击登录</a>
+                        <div style="clear:left;"></div>
+                    </form>
+                </div>
+            </div>
+            <div class="layui-tab-item layui-show" style="min-height: 400px">
+                <div id="wx_reg" style="text-align:center;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="bottom_txt" style="display: none;">
+
+</div>
+
+<link rel="stylesheet" href="/static/css/layui/css/layui.css"/>
+<script src="/static/lib/jquery-2.1.4.js"></script>
+<script src="/static/css/layui/layui.js"></script>
+
+<script>
+    /*
+    $.post("/admin/Public/get_option",null,function(data){
+        $('#site_name').html(data['site_name']);
+        $("#title").html(data['site_name']);
+        $("#site_describe").html(data['site_describe']);
+        $('#bottom_txt').html(data['site_copyright']+"<br/>"+data['site_admin_email']+"&nbsp;"+data['site_analytics']);
+    });
+    */
+    var phone_code_interval = 60;
+
+    layui.config({base:"js/"}).use(['layer','element'], function(){
+        window.$ = layui.$;window.layer = layui.layer;
+        $("[name=username]").focus();
+        $("#forget_get_phone_code").click(forget_get_code);
+        $("#btn_next").click(forget_next);
+
+        $(".switch_forget").click(function(){
+            if($('input').placeholder) $('input').placeholder();
+            $("#login_form,#forget_form").toggle();
+            if(localStorage.forget_get_phone_code) timeing();//防止刷新验证码时间
+        });
+    });
+
+    $.post('/structure/login/login_type',null,function(res){
+        if(res.code==1){
+            var data = res.data;
+            /*企业微信*/
+            var goto_url = encodeURIComponent('http://103.204.75.17/wwopen/sso/qrConnect?appid='+data['corpid']+'&agentid='+data['app_id']+'&redirect_uri='+location.protocol +"//"+ location.host+'/structure/login/wx_login&state=web_login@gyoss9');
+            console.log(goto_url);
+			var obj = window.WwLogin({
+                "id" : "wx_reg",
+                "appid" : data.corpid,
+                "agentid" : data['app_id'],
+                "redirect_uri" :location.protocol +"//"+ location.host+"/structure/login/wx_login",
+                "state" : "",
+                "href" : "",
+            });
+        }
+        else{
+            $('.layui-tab-title').find("li").eq(1).remove();
+            $(".user_login").css({display: 'block',margin: 'auto'});
+            $(".user_login").trigger('click');
+        }
+    });
+    //忘记密码 - 获取验证码
+    function forget_get_code(){
+        var username = $("#forget_form input[name='forget_username']").val();
+        if(username.length<2){layer.msg("请输入手机号或邮箱账号",{icon:2});return;}
+        $("#forget_form input[name='forget_username']").attr("readonly",true);
+        public_ajax("/admin/Public/forgetSendcode",{username:username},function(data){
+            if(data.code){
+                localStorage.forget_get_phone_code = new Date().getTime();timeing(); //倒计时
+                layer.msg(data.msg,{icon:1});
+            }else{
+                $("#forget_form input[name='forget_username']").attr("readonly",false);
+                layer.msg(data.msg,{icon:2});
+            }
+        },$("#forget_form"));
+    }
+    //忘记密码 - 下一步
+    function forget_next(){
+        var username = $("#forget_form input[name='forget_username']").val();
+        var captcha = $("#forget_form input[name='captcha']").val();
+        if(!username.length){layer.msg("请输入手机号或邮箱账号",{icon:2});return;}
+        if(username.indexOf("@")==-1 && username.length!=11){layer.msg("请输入正确手机号或邮箱账号",{icon:2});return;}
+        if(!captcha.length){layer.msg("请输入验证码",{icon:2});return;}
+        $.post("/admin/Public/checkCode",{username:username,code:captcha},function(data){
+            layer.msg("验证成功，请设置新密码",{time:1000,icon:1});
+            $("#forget_1,#forget_2").toggle();
+        });
+    }
+    //忘记密码 - 最后提交
+    function forget_submit(){
+        if($("#forget_1").css("display") == 'inline') {forget_next();return false;}
+        var username = $("#forget_form input[name='forget_username']").val();
+        var captcha = $("#forget_form input[name='captcha']").val();
+        var password = $("#forget_form input[name='password1']").val();
+        var password2 = $("#forget_form input[name='password2']").val();
+        if(!password || password != password2){layer.msg("两次密码输入不一致,请检查输入！",{icon:2});return false;}
+        $.post("/admin/Public/resetPassword",{username:username,code:captcha,password:password},function(data){
+            $("#login_form input[name='username']").val(username);
+            $("#login_form input[name='password']").val(password);
+            $("#login_form,#forget_form").toggle();
+            layer.msg('重置密码成功，请牢记您的新密码！',{icon:1});
+        });
+        return false;
+    }
+    //验证码倒计时
+    function timeing(){
+        var past_time = parseInt((new Date().getTime() - localStorage.forget_get_phone_code)/1000);
+        if(past_time < phone_code_interval){
+            $("#forget_get_phone_code").text((60 - past_time) +" 秒").prop("disabled",true);
+            setTimeout(timeing,1000);
+        }else{
+            $("#forget_get_phone_code").text("获取验证码").prop("disabled",false);
+        }
+    }
+
+    function login_post(){
+        var data ={};
+        $("#login_form").find("input").each(function(){
+            data[this.name] = this.value;
+            if(this.type=='checkbox') data[this.name] = this.checked;
+        });
+        var loading = layer.load(2, {"shade":0.1,time: 10*1000});
+        $.post("/structure/login/do_login",data,function(data){
+            layer.close(loading);
+            if(data.code){
+                // USER.id = data.data.id;
+                layer.msg(data.msg,{icon:1});
+                location.href= data.url;
+            }else{
+                layer.msg(data.msg,{icon:2});
+                $("#vercode_box img").click();
+            }
+        });
+        return false;
+    }
+</script>
+
+
+<!--[if IE]>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-placeholder/2.0.0/jquery.placeholder.min.js"></script>
+<script>
+    $('input').placeholder();
+
+    $("#vercode_box img").click();
+</script>
+
+<![endif]-->
+</body>
+</html>

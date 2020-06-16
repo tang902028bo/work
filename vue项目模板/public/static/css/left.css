@@ -1,0 +1,114 @@
+/*created by songxue on 2019.5.6*/
+body{color:#333;}
+html{background-color: #e9eaeb;}
+.green{color:#009688}
+.bg_white{background: #fff;}
+.layui-fluid{padding:15px;}
+.fl{float:left;display:inline;}
+.fr{float:right;display:inline;}
+.mt15{margin-top: 15px;}
+.mt5{margin-top: 5px;}
+.hide{display: none;}
+input::-webkit-input-placeholder{color:#cfcfcf;}
+input:-moz-placeholder{color:#cfcfcf;}
+input::-moz-placeholder{color:#cfcfcf;}
+input:-ms-input-placeholder{color:#cfcfcf;}
+textarea::-webkit-input-placeholder{color:#cfcfcf;}
+textarea:-moz-placeholder{color:#cfcfcf;}
+textarea::-moz-placeholder{color:#cfcfcf;}
+textarea:-ms-input-placeholder{color:#cfcfcf;}
+*{box-sizing: border-box}
+/*
+  头部栏/侧边导航
+*/
+.layui-layout-admin .layui-header{background-color: #fff;}
+.layui-header li{display: inline-block;}
+.layui-header .layui-nav .layui-nav-item a{color:#666;}
+.layui-header .layui-nav .layui-nav-item a.green{color:#009688;}
+.layui-side-menu .layui-nav{margin-top: 50px;}
+.layui-layout-admin .layui-logo{background-color: #20222a;line-height: 50px;color:#fff;text-align: center;font-size: 18px;}
+.layui-side-menu{background-color: #20222a;height:100%;}
+.layui-nav-tree .layui-this, .layui-nav-tree .layui-this>a, .layui-nav-tree .layui-nav-child dd.layui-this, .layui-nav-tree .layui-nav-child dd.layui-this a{background-color: #009688}
+.layui-nav .layui-nav-item .layui-icon-triangle-d{font-size: 16px;color:#666;display: inline-block}
+.layui-nav-tree .layui-nav-item>a{padding-left: 60px;position: relative;}
+.layui-nav-tree .layui-nav-item>a>i{position: absolute;left:17px;font-size: 22px;}
+.layui-nav-tree .layui-nav-item>a>.icon-index{font-size: 24px;}
+.layui-layout-admin .layui-header .layui-nav .layui-this:after, .layui-layout-admin .layui-header .layui-nav-bar{height: 2px;background-color: #20222A;}
+.layadmin-side-shrink .layadmin-pagetabs, .layadmin-side-shrink .layui-layout-admin .layui-body, .layadmin-side-shrink .layui-layout-admin .layui-footer, .layadmin-side-shrink .layui-layout-admin .layui-layout-left {left: 60px;}
+.layadmin-side-shrink .layui-side {left: 0;width: 60px;}
+.layadmin-side-shrink .layui-layout-admin .layui-logo span {display: none;}
+.layadmin-pagetabs, .layui-layout-admin .layui-body, .layui-layout-admin .layui-footer, .layui-layout-admin .layui-header .layui-layout-right, .layui-layout-admin .layui-header .layui-nav .layui-nav-item, .layui-layout-admin .layui-layout-left, .layui-layout-admin .layui-logo, .layui-layout-admin .layui-side {transition: all .3s;-webkit-transition: all .3s;}
+.layadmin-side-shrink .layui-layout-admin .layui-logo {width: 60px;background-image: url(../images/logo.png);background-size: 35px;background-position: center;}
+.layui-nav-img{width:20px;height:20px;margin-right: 4px;display: inline-block;vertical-align: middle;position: relative;top:-2px;}
+
+.layui-side-menu .layui-nav .layui-nav-itemed>.layui-nav-child { padding: 5px 0;}
+.layui-nav-itemed>.layui-nav-child {display: block;padding: 0;background-color: rgba(0,0,0,.3)!important;}
+.layui-nav-tree .layui-nav-child, .layui-nav-tree .layui-nav-child a:hover {background: 0 0;color: #fff;}
+.layui-nav-tree .layui-nav-child {position: relative;z-index: 0;top: 0;border: none;box-shadow: none;}
+.layui-nav-child {display: none;position: absolute;left: 0;top: 51px;min-width: 100%;line-height: 36px;padding: 5px 0;box-shadow: 0 2px 4px #e7e7e7;border: 1px solid #e7e7e7;background-color: #fff;z-index: 100;border-radius: 2px;white-space: nowrap;}
+.layui-nav * {font-size: 14px;}
+
+.layui-header-screen{position: relative;margin-right: 20px;}
+.layui-header-screen>input{height:28px;}
+.layui-header-screen>i{position: absolute;right:7px;color:#9c9c9c;top:6px;line-height: normal}
+
+@media screen and (max-width: 992px){
+    .layadmin-pagetabs, .layui-layout-admin .layui-body, .layui-layout-admin .layui-footer, .layui-layout-admin .layui-layout-left {  left: 0;  }
+    .layui-layout-admin .layui-side {transform: translate3d(-220px,0,0);-webkit-transform: translate3d(-220px,0,0);width: 220px;  }
+    .layadmin-pagetabs, .layui-layout-admin .layui-body, .layui-layout-admin .layui-footer, .layui-layout-admin .layui-layout-left {left: 0;}
+    .layadmin-side-shrink .layui-side {transform: translate3d(0,0,0);-webkit-transform: translate3d(0,0,0);}
+    .layadmin-side-shrink .layui-layout-admin .layui-layout-left {left: 0;transform: translate3d(220px,0,0);-webkit-transform: translate3d(220px,0,0);}
+    .layadmin-side-shrink .layui-layout-admin .layui-logo {width:220px;}
+    .layadmin-side-shrink .layui-layout-admin .layui-logo span{display: inline}
+    .layadmin-side-shrink .layui-layout-admin .layui-logo{background-image: none}
+}
+
+.layui-table-view .layui-table-page{text-align: right}
+.layui-table-body::-webkit-scrollbar,.newScrollbar::-webkit-scrollbar{width: 6px;height: 6px;background-color: #ebebeb;border:none;}
+.layui-table-body::-webkit-scrollbar-track,.newScrollbar::-webkit-scrollbar-track{background-color:#ebebeb;border-radius: 3px;}
+.layui-table-body::-webkit-scrollbar-thumb,.newScrollbar::-webkit-scrollbar-thumb{border-radius: 3px;-webkit-box-shadow:none;background-color: #b4b4b4;}
+
+.newScroll::-webkit-scrollbar,.popup .layui-table-body::-webkit-scrollbar{width: 6px;height: 6px;background-color: #ebebeb;}
+.newScroll::-webkit-scrollbar-track,.popup .layui-table-body::-webkit-scrollbar-track{background-color: #ebebeb;border-radius: 3px;}
+.newScroll::-webkit-scrollbar-thumb,.popup .layui-table-body::-webkit-scrollbar-thumb {border-radius: 3px;-webkit-box-shadow: none;background-color: #b4b4b4;  }
+
+.layui-body{padding-bottom: 30px;}
+.layui-footer{text-align: center;z-index: 999;left:220px}
+
+.layui-nav-tree .layui-nav-child>dd>a{padding-left: 60px;}
+
+.tongBu{display:none;}
+
+
+/** 颜色重写 **/
+.layui-form-select dl dd.layui-this,.layui-btn-primary:hover,.layui-form-checked[lay-skin=primary] i,.role_system:hover, .role_custom.active, .role_system.active,.layui-nav-tree .layui-nav-child dd.layui-this, .layui-nav-tree .layui-nav-child dd.layui-this a, .layui-nav-tree .layui-this, .layui-nav-tree .layui-this>a, .layui-nav-tree .layui-this>a:hover,.layui-nav-tree .layui-nav-bar{background:#4A77AC !important;border-color:#4a92ca;}
+body .xm-form-checkbox > i,body .xm-form-checkbox:hover > i,.layui-elem-quote,.layui-tab-brief>.layui-tab-more li.layui-this:after, .layui-tab-brief>.layui-tab-title .layui-this:after{border-color:#4a92ca;}
+.layui-btn-xs{padding:0 10px;}
+.layui-laypage .layui-laypage-curr .layui-laypage-em{background:#4a92ca;}
+.layui-layer-btn .layui-layer-btn0,.layui-btn{border:0;background-color: #4A77AC;background-image: linear-gradient(to bottom,#61A6E6 0,#4890C7 100%);}
+.layui-btn-primary{background: none; color: #4b93cb; border: 1px solid #559bd7;}
+.layui-btn-primary:hover{color:white;border-color:#4A77AC;}
+.layui-btn-danger{background: #FF5722;}
+a { color: #0C4C7F; text-decoration: none; -webkit-tap-highlight-color: #0C4C7F; }
+.green{color:#4A77AC}
+body .line-scale-pulse-out > div{background:#4a92ca}
+
+
+/** 公共框架样式*/
+.frame_head_top { min-width: 1098px;background-color: #335883; height:32px;line-height:32px;color:white;font-size: 12px;}
+.frame_head_top>.frame_width{ padding: 0 10px;}
+.frame_head_top a{color:white;}
+.frame_head_top .separated{opacity: .4; padding: 0 5px; top: -1px; position: relative;}
+.frame_width{width:1098px; margin: auto;}
+.frame_head_bottom{min-width: 1098px;background-color: #ffffff; box-shadow: 0 1px 2px 0 rgba(0,0,0,.1);margin-bottom: 20px;}
+.frame_nav_item{color: #53749a; line-height: 40px; padding: 0 30px; margin-right: 25px; margin-left: 10px;cursor: pointer;}
+.frame_nav_item.active{ border-bottom: 3px solid #2C5480; padding-bottom: 10px; }
+.frame_nav_item:hover { text-decoration: none; color: #3A6291;}
+.layui-body{position:static;}
+#LAY_app_body{display: flex;}
+#LAY_app_body>.layui-fluid{padding:0;flex-grow:1;width: 100%;}
+#LAY_app_body>.left{display:none;width: 180px; background: #F9FAFC;  padding-top: 12px; border-right: 1px dotted #DCE1E6; vertical-align: top;}
+#LAY_app_body>.left.active{display:block;}
+#LAY_app_body>.left>a{padding-left: 19px; display: block; line-height: 44px; color: #000;}
+#LAY_app_body>.left>a:hover{background-color:#f2f2f2}
+#LAY_app_body>.left>a.active{background-color: #4A77AC; color:white;}

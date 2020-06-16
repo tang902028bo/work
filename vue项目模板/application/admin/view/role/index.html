@@ -1,0 +1,361 @@
+{extend name="left" /}
+{block name="title"}<title>角色</title>{/block}
+{block name="css"}
+<style>
+
+    /*强制显示滚动条*/
+    html{overflow-y:scroll}
+
+    .p_align{margin-left: 46px;}
+    .align_r{text-align:right;}
+    .title_2{font-size: 16px;color:#333333;line-height: 30px;margin-bottom: 20px;}
+    .plr_20 { padding: 0 20px;}
+    .pl_10{padding-left:10px;}
+    .mb_15{margin-bottom: 15px;display:inline-block;}
+    .mr10{margin-right: 10px;}
+
+    /*左侧角色*/
+    .layui-row{margin:0;}
+    #role_box>div{cursor: pointer;position: relative;transition: .2s;padding: 0 7%;line-height: 43px; border-bottom: 1px solid #f6f6f6;color:#666666;overflow: hidden;}
+    #role_box .right{float:right;font-size: 12px;}
+    .role_system:hover,.role_custom.active,.role_system.active{background:#009688;}
+    .role_system:hover span,.role_custom.active span,.role_system.active span{color:white;}
+    .role_custom .right{opacity:0;transition: .1s;}
+    .role_custom::after{content: ""; display: block;transition:0.3s ease-out;width:0; background: #009688;  height: 100%; position: absolute; top: 0; left: 0;}
+    .role_custom:hover{background:white;}
+    .role_custom:hover span{color:#009688;}
+    .role_custom:hover::after{width: 2.8%;opacity:.7;}
+    .role_custom:hover .right{opacity:1;}
+    .layui-tab-title{margin: 0px 11px;}
+    .layui-collapse{border:0;}
+    .layui-colla-item{margin-bottom: 20px; border: 1px solid #ececec; box-shadow: 0 1px 1px rgba(0,0,0,0.05); border-radius: 2px;}
+    .layui-colla-content{padding: 20px 35px; line-height: 35px;}
+    .layui-form-item{margin-bottom: 0;}
+    .layui-form-label{padding: 10px 16px;}
+
+    .table{width:100%;}
+    .table tr:hover{background:#f9f9f9;}
+    .table td{width:33%;padding: 8px 15px;}
+    /*弹出框*/
+    #add_box{background:#f9f9f9;padding: 20px 48px;}
+    #copy_box>p{background:#effbfa;padding: 11px 20px 18px; margin-bottom: 10px;color:#009688;}
+    /*伸缩面板 隐藏左侧图标*/
+    .layui-colla-title{padding-left: 15px;}
+    .layui-colla-title .layui-colla-icon{display: none;}
+    .color_666{color: #666}
+</style>
+{/block}
+
+{block name="content"}
+<div class="layui-fluid">
+    <div class="layui-card BH">
+        <div class="layui-card-header">角色和权限配置</div>
+        <div class="layui-card-body">
+            <blockquote class="layui-elem-quote">
+                提示：  1、角色代表操作权限，操作权限是指具有该角色的用户是否能查看、新增、编辑、删除某些数据；
+                <p class="p_align">2、超级管理员的权限是系统默认的最大权限的角色，不能修改。</p>
+            </blockquote>
+            <div class="align_r">
+                <button  id="btn_add" class="layui-btn layui-btn-sm">新增角色</button>
+<!--                <button auth="add_role" id="btn_add" class="layui-btn layui-btn-sm">新增角色</button>-->
+                <!--<button auth="set_role_permission" id="btn_copy" class="layui-btn layui-btn-sm">复制角色</button>-->
+            </div>
+            <div class="layui-row layui-col-space20">
+                <div class="layui-col-md3">
+                    <div class="title_2">公司角色</div>
+                    <div id="role_box">{/*角色*/}</div>
+                </div>
+                <div class="layui-col-md9 border_l" id="authority_box">
+                    <form class="layui-form">
+                        <div class="title_2 pl_10"><span id="switch_role_name">超级管理员</span> 设置</div>
+                        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+                            <ul class="layui-tab-title">
+                                <li class="layui-this">操作权限</li>
+                                <!--<li class="">数据权限</li>-->
+                            </ul>
+                            <div class="layui-tab-content">
+                                <div class="layui-tab-item layui-show" id="operation_box">
+                                    <div class="layui-collapse" lay-accordion="">
+                                        <div class="layui-colla-item">
+                                            <h2 class="layui-colla-title">-权限</h2>
+                                            <div class="layui-colla-content">
+                                                <input name="input_operation" checked=""  type="checkbox" data-checksum="show_product" data-type="9" data-id="73" data-genjin="undefined" title="查看产品" lay-skin="primary">
+                                                <input name="input_operation" checked=""  type="checkbox" data-checksum="add_product" data-type="9" data-id="74" data-genjin="undefined" title="新增产品" lay-skin="primary">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="layui-tab-item" id="data_assess_box">
+                                    <!--<div class="layui-collapse" lay-accordion="">
+                                        <div class="layui-colla-item">
+                                            <h2 class="layui-colla-title">数据权限 <span>（设置该角色的用户可以操作的数据的范围）</span><i class="layui-icon layui-colla-icon"></i></h2>
+                                            <div class="layui-colla-content layui-show">
+                                                <div class="layui-form-item">
+                                                    <div class="layui-input-inline">
+                                                        <input  type="radio" name="input_permission" value="1" title="个人">
+                                                    </div>
+                                                    <div class="layui-form-mid ">只能操作自己和下属的数据</div>
+                                                </div>
+                                                <div class="layui-form-item">
+                                                    <div class="layui-input-inline">
+                                                        <input  type="radio" name="input_permission" value="2" title="所属部门">
+                                                    </div>
+                                                    <div class="layui-form-mid ">能操作自己、下属、和自己所属部门的数据</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>-->
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{/block}
+
+{block name="append_js"}
+<script>
+    $(".BH").css("min-height",$(window).height()-80);
+    function init_role_list(res){
+        var data = res.data;
+        $.each(data,function (i) {
+            var right_html ='<span class="right">系统默认</span>';
+            if(!this.is_system){
+                right_html='';
+                if(USER.auth_check('edit_role')){
+                    right_html +='<span class="right"><i data-tips="编辑" auth="edit_role" class="btn_edit iconfont icon-bianji mr10"></i> ';
+                }
+                if(USER.auth_check('del_role')){
+                    right_html += '<i data-tips="删除" auth="del_role" class="btn_delete iconfont icon-shanchu"></i></span>';
+                }
+            }
+            var str = '<div class="role_system '+(i===0?'active':'')+'"  data-role_id="'+this.id+'"><span class="text">'+this.role_name+'</span>'+right_html+'</div>'
+            $("#role_box").append(str);
+        });
+    }
+
+    public_ajax("/api/role_manger/power_type",{},function (res) {
+        $.each(res.data,function () {
+            operation_type[this.type_num] = this.type_name
+        });
+    });
+
+    public_ajax("/api/role_manger/role_list",{},init_role_list,$("#role_box"));
+
+    //一.初始化
+    public_ajax('/api/role_manger/show_role_permission',null,dom_init,$('#index_main_box .layui-fluid>.layui-card'));
+
+    layui.use(['form','element'],function(){
+        // var element=layui.element;
+        var form=layui.form;
+
+        //1.新增角色
+        $('#btn_add').click(role_add);
+        //3.编辑角色名
+        $('#role_box').on('click','.btn_edit',role_edit);
+        //4.删除角色
+        $('#role_box').on('click','.btn_delete',role_delete);
+        //5.切换角色
+        $('#role_box').on('click','.role_system,.role_custom',role_switch);
+        //6.设置角色权限
+        layui.form.on('checkbox(power)',role_setting);
+        // form.on('radio',role_setting);
+
+
+        //添加角色
+        function role_add(){
+            $('#add_box input').val('');
+            layer_open("新增角色",$('#add_box'),yes,{area:'400px'});
+            function yes(dom){
+                var add_name = $.trim($('#add_box input').val());
+                if(!add_name.length){layer.close(dom);return;}
+                if(chech_role_name_repeat(add_name)) return;
+                layer.close(dom);
+                public_ajax('/api/role_manger/add_role',{name:add_name},return_function,$('#role_box'));
+                function return_function(data){dom_role_add(data.data,add_name,1,'myAndDep');}
+            }
+        }
+
+        //编辑角色
+        function role_edit() {
+            var role_id = $(this).parent().parent().data('role_id');
+            var role_text_dom = $(this).parent().prev();
+            var this_text = role_text_dom.text();
+            $('#add_box input').val(this_text);
+            layer_open("编辑角色",$('#add_box'),yes,{area:'400px'});
+            function yes(dom){
+                var add_name = $.trim($('#add_box input').val());
+                if(!add_name.length){layer.close(dom);return;}
+                if(this_text === add_name){layer.close(dom);return;}
+                if(chech_role_name_repeat(add_name)) return;
+                layer.close(dom);
+                public_ajax('/api/role_manger/edit_role',{id:role_id,name:add_name},function (res) {
+                    if(res.code==1)role_text_dom.text(add_name);
+                },role_text_dom);
+            }
+        }
+
+        function role_delete() {
+            var role_dom = $(this).parent().parent();
+            var role_id = role_dom.data('role_id');
+            var this_text = $(this).parent().prev().text();
+            layer_confirm('确认删除角色 <span class="green">'+this_text+'</span> 吗?',function(){
+                if(role_dom.hasClass('active')) $('#role_box:first-child').click();
+                public_ajax('/api/role_manger/del_role',{id:role_id},return_function,role_dom);
+                function return_function(){
+                    role_dom.remove();
+                }
+            },{title:'提示'});
+        }
+
+        //切换角色
+        function role_switch (e) {
+            if(e.target.tagName==="I") return;                                         //点击编辑和删除不切换角色
+            if(window.role_switch_lock) return;                                        //切换的时候加锁
+            window.role_switch_lock = true;
+            $('#switch_role_name').text($(this).find('.text').text());
+            $('#role_box .active').removeClass('active');
+            $(this).addClass('active');
+            var role_id = $(this).data('role_id');
+            //超级管理员
+            if(role_id===1){
+                var index = public_load_open($('#authority_box'));
+                $("#operation_box input,#data_assess_box input").prop({disabled:true,checked:true});
+                // $("#field_box input").prop({disabled:true,checked:false});
+                // $("#data_assess_box input[value=4]").prop('checked',true);
+                // $("#genjin_box input[value=all]").prop('checked',true);
+
+                layui.form.render();
+                window.role_switch_lock = false;
+                public_load_close(index);
+
+            }
+            else{
+                var disabled = false;
+                //如果没有权限编辑 则禁用按钮
+                if(!USER.auth_check('edit_role_limit')) disabled = true;
+                $("#operation_box input,#data_assess_box input").prop({disabled:disabled,checked:false});
+                // $("#field_box input[value="+$(this).data('field_type')+"]").prop('checked',true);
+                //数据权限
+                // $("#data_assess_box input[value="+$(this).data('permission')+"]").prop('checked',true);
+                public_ajax('/api/role_manger/get_role_permission',{role_id:role_id},return_function,$('#authority_box'));
+                function return_function(data){
+                    //操作权限
+                    $(data['data']).each(function(){
+                        if(this['code']){
+                            $("#operation_box input[data-checksum="+this['code']+"]").prop('checked',this['status']);
+                        }
+                    });
+                    layui.form.render();
+                    window.role_switch_lock = false;
+                }
+                window.role_switch_lock = false;
+            }
+        }
+
+        function role_setting (layui_dom) {
+            var active_role_id = $('#role_box .active').data('role_id');
+            //操作权限
+            if(layui_dom.elem.name === 'input_operation'){
+                var change_status = +layui_dom.elem.checked;
+                var input_type = $(layui_dom.elem).data('type');
+                var input_checksum = $(layui_dom.elem).data('checksum');
+                var send_data = {role_id:active_role_id,code:input_checksum,type:input_type,status:change_status};
+                public_ajax('/api/role_manger/change_operation_permission',send_data,null,layui_dom.othis);
+            }
+        }
+
+        /***************************dom操作等****************************/
+
+
+
+        //添加角色 dom
+        function dom_role_add(id,name){
+            if(id<3){var class_text = 'role_system';var right_text = '系统默认';}
+            else{
+                var class_text = 'role_custom';
+                var right_text = '<i data-tips="编辑" class="btn_edit iconfont icon-bianji mr10"></i> <i data-tips="删除" class="btn_delete iconfont icon-shanchu"></i>';
+                //没有权限则不显示编辑按钮
+                if(!USER.auth_check('set_role_permission')) right_text = '';
+            }
+
+            $('#role_box').append('<div class="'+class_text+'" data-role_id="'+id+'"><span class="text">'+name+'</span><span class="right">'+right_text+'</span></div>');
+        }
+
+
+
+        //检查角色名是否存在
+        function chech_role_name_repeat(role_name){
+            var have_name = false;
+            $('#role_box .text').each(function(){if($(this).text() === role_name) have_name = true;});
+            if(have_name){layer.msg('角色名已存在!',{icon:2});return true;}
+            return false;
+        }
+
+
+    });
+    var operation_type = [];
+    //操作权限列表
+    function operation_chinese_type(type){
+        // return operation_type[type]?operation_type[type]:'';
+        switch(type){
+            case 1:return '部门用户设置';
+            case 2:return '用户权限设置';
+            case 3:return '应用设置';
+            default:return '';
+        }
+    }
+    function dom_init(data){
+
+        //初始化-操作权限
+        var group_value,operation_temp_dom = $('<div class="layui-collapse" lay-accordion></div>');
+
+        $(data['data']).each(function(){
+            if(group_value != this['type']){
+                group_value = this['type'];
+                if(!operation_temp_dom.find(".layui-colla-content[data-type="+group_value+"]").length){
+                    operation_temp_dom.append('<div class="layui-colla-item"><h2 class="layui-colla-title">'+operation_chinese_type(this['type'])+'-权限</h2><div class="layui-colla-content" data-type="'+group_value+'"></div></div>');
+                }
+            }
+            operation_temp_dom.find(".layui-colla-content[data-type="+group_value+"]").append('<input name="input_operation" lay-filter="power" checked disabled type="checkbox" data-checksum="'+this['code']+'" data-type="'+this['type']+'" data-id="'+this['id']+'"  data-genjin ="'+this['genjin']+'"   title="'+this['name']+'" lay-skin="primary">');
+        });
+
+        // $("#operation_box").html(operation_temp_dom).find('div>:first>.layui-colla-content').show();
+        $("#operation_box").html(operation_temp_dom).find('div>.layui-colla-content').show();//改成全部展开
+        //更新layui dom
+        layui.form.render();
+        //操作和字段权限 展开设置内容
+        $('#operation_box .layui-colla-title,#field_box .layui-colla-title').click(function(){$(this).next().slideToggle(180);});
+    }
+    
+</script>
+{/block}
+
+{block name="box"}
+<div id="add_box" class="hide form_item_public_position">
+    <label class="layui-form-label" style="width: 90px;">角色名称</label>
+    <div class="layui-input-inline">
+        <input type="text" placeholder="角色名最长10个字符" maxlength="10" class="layui-input">
+    </div>
+</div>
+
+<div id="copy_box" class="hide layui-form form_item_public_position">
+    <p> <i class="iconfont icon-tishi"></i>注: 系统将根据选择的角色复制生成一个新的角色, 新角色与选择角色的配置完全相同. </p>
+    <div class="layui-form-item">
+        <label class="layui-form-label">选择角色</label>
+        <div class="layui-input-block">
+            <select id="select_copy_role" name="select_copy_role" class="openin_layer"></select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">新角色名称</label>
+        <div class="layui-input-block">
+            <input type="text" id="new_role_name" placeholder="新角色名称" maxlength="10" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+</div>
+{/block}
